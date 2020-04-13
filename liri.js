@@ -3,7 +3,7 @@ var fs = require("fs");
 var axios = require("axios");
 var request = require("request");
 var moment = require("moment");
-
+var Spotify = require('node-spotify-api');
 
 var keys = require('./keys.js');
 
@@ -30,7 +30,7 @@ if (!error && response.statusCode == 200) {
 
     var getMeSpotify = function(songName) {
      var spotify = new Spotify(keys.spotify);
-    //var Spotify = require('node-spotify-api');
+   
  
       //var spotify = new Spotify({
       //  id: "9e2da8ff15e642389e5e03123e4319b8" ,
@@ -88,7 +88,17 @@ if (!error && response.statusCode == 200) {
       });
 
     }
-
+var doWhatItSays = function() {
+fs.readFile('random.txt', 'utf8', function (err, data) {
+  if (err) throw err;
+ var dataArr = data.split(',');
+if (dataArr =data.length == 2) {
+  pick(dataArr[0], dataArr[1]);
+} else if (dataArr.length ==1) {
+  pick(dataArr[0]);
+}
+});
+}
 var pick = function(caseData, functionData) {
   switch (caseData) {
     case "concert-this":
@@ -100,6 +110,9 @@ var pick = function(caseData, functionData) {
     case "movie-this":
       getMeMovie(functionData);
       break;
+     case 'do-what-it-says':
+       doWhatItSays();
+       break; 
       default: 
       console.log("LIRI DOES NOT KNOW THAT!!");
     }
