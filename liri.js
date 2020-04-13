@@ -1,11 +1,11 @@
+require("dotenv").config();
 var fs = require("fs");
 var axios = require("axios");
 var request = require("request");
 var moment = require("moment");
-var dotenv = require("dotenv");
 
-//require("dotenv").config();
-//var keys = require('./dataKeys.js');
+
+var keys = require('./keys.js');
 
 var getMeMovie = function(movieName) {
             
@@ -29,13 +29,13 @@ if (!error && response.statusCode == 200) {
 }
 
     var getMeSpotify = function(songName) {
-     
-      var Spotify = require('node-spotify-api');
+     var spotify = new Spotify(keys.spotify);
+    //var Spotify = require('node-spotify-api');
  
-      var spotify = new Spotify({
-        id: "9e2da8ff15e642389e5e03123e4319b8" ,
-        secret: "5068f3811b23475d83c15d83438d0407"
-      });
+      //var spotify = new Spotify({
+      //  id: "9e2da8ff15e642389e5e03123e4319b8" ,
+      //  secret: "5068f3811b23475d83c15d83438d0407"
+     //});
        
       spotify.search({ type: 'track', query: songName }, function(err, data) {
         if (err) {
@@ -53,25 +53,24 @@ if (!error && response.statusCode == 200) {
     }
     var getMyConcert = function(artistName) {
     
-    var queryUrl = "https://rest.bandsintown.com/artists/" + artistName + "?app_id=codingbootcamp";
+    var queryUrl = "https://rest.bandsintown.com/artists/" + artistName + "/events?app_id=codingbootcamp";
     console.log(queryUrl);
     
     axios.get(queryUrl).then(
       function(response) {
+        console.log(response.data[0]);
         console.log('================= HERE IS YOUR ARTIST INFO...==================') 
-        console.log("Artist Name: " + response.name);
-        console.log("Artist URL: " + response.url);
-        console.log("Upcoming Events: " + response.upcoming_event_count);
-        console.log("See Tour Dates: " + response.name);
+        console.log("Artist Name: " + response.data[0].artist.name);
+        console.log("Artist URL: " + response.data[0].url);
+        console.log("Upcoming Events: " + response.data[0].venue.name);
+        console.log("Country, City: " + response.data[0].venue.country + "," + response.data[0].venue.city);
+        console.log("See Tour Dates: " + moment(response.data[0].datetime).format("MM/DD/YYYY"));
         console.log('================= HERE IS YOUR ARTIST INFO...==================') 
-      //Name of the venue
-      //Venue location
-      //Date of the Event (use moment to format this as "MM/DD/YYYY")
+    
       })
       .catch(function(error) {
         if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
+       
           console.log("---------------Data---------------");
           console.log(error.response.data);
           console.log("---------------Status---------------");
@@ -79,11 +78,10 @@ if (!error && response.statusCode == 200) {
           console.log("---------------Status---------------");
           console.log(error.response.headers);
         } else if (error.request) {
-          // The request was made but no response was received
-          // `error.request` is an object that comes back with details pertaining to the error that occurred.
+
           console.log(error.request);
         } else {
-          // Something happened in setting up the request that triggered an Error
+        
           console.log("Error", error.message);
         }
         console.log(error.config);
@@ -101,6 +99,7 @@ var pick = function(caseData, functionData) {
       break;
     case "movie-this":
       getMeMovie(functionData);
+      break;
       default: 
       console.log("LIRI DOES NOT KNOW THAT!!");
     }
