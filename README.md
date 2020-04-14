@@ -5,7 +5,7 @@ This was a program using apis which I have used before, but now returning outsid
 
 here are images of working search queries from the command line:
 
-![band-query]("https://github.com/mbowler03/liri/blob/master/img/band-screen-shot.JPG")
-![movie-query]("https://github.com/mbowler03/liri/blob/master/img/movie-screen-shot.JPG")
-![song-query]("https://github.com/mbowler03/liri/blob/master/img/song-screen-shot.JPG")
+![band-query](/img/band-screen-shot.JPG)
+![movie-query](/img/movie-screen-shot.JPG)
+![song-query](/img/song-screen-shot.JPG)
 
