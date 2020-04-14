@@ -4,8 +4,9 @@ var axios = require("axios");
 var request = require("request");
 var moment = require("moment");
 var Spotify = require('node-spotify-api');
-
 var keys = require('./keys.js');
+var spotify = new Spotify(keys.spotify);
+
 
 var getMeMovie = function(movieName) {
             
@@ -29,14 +30,7 @@ if (!error && response.statusCode == 200) {
 }
 
     var getMeSpotify = function(songName) {
-     var spotify = new Spotify(keys.spotify);
-   
- 
-      //var spotify = new Spotify({
-      //  id: "9e2da8ff15e642389e5e03123e4319b8" ,
-      //  secret: "5068f3811b23475d83c15d83438d0407"
-     //});
-       
+    
       spotify.search({ type: 'track', query: songName }, function(err, data) {
         if (err) {
           return console.log('Error occurred: ' + err);
@@ -117,7 +111,6 @@ var pick = function(caseData, functionData) {
       console.log("LIRI DOES NOT KNOW THAT!!");
     }
   }
-
 
   var runThis = function (argOne, argTwo) {
   pick(argOne, argTwo);
